@@ -14,16 +14,15 @@ import com.mizzkii.photoproject.adapter.PhotoListAdapter;
 /**
  * Created by MizzKii on 9/5/2016 AD.
  */
-public class GridFragment extends Fragment {
+public class GridListFragment extends Fragment {
 
     GridView gridView;
-    PhotoListAdapter listAdapter;
 
-    public static GridFragment newInstance() {
+    public static GridListFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        GridFragment fragment = new GridFragment();
+        GridListFragment fragment = new GridListFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,7 +37,6 @@ public class GridFragment extends Fragment {
 
     private void initInstance(View rootView) {
         gridView = (GridView) rootView.findViewById(R.id.gridView);
-        listAdapter = new PhotoListAdapter();
-        gridView.setAdapter(listAdapter);
+        gridView.setAdapter(PhotoListAdapter.getInstance());
     }
 }

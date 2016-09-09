@@ -14,26 +14,26 @@ import com.mizzkii.photoproject.R;
 /**
  * Created by MizzKii on 9/4/2016 AD.
  */
-public class PhotoListItem extends FrameLayout {
+public class PhotoGridItem extends FrameLayout {
 
     ImageView ivImg;
     TextView tvName;
     TextView tvDescription;
 
-    public PhotoListItem(Context context) {
+    public PhotoGridItem(Context context) {
         super(context);
         initInflate();
         initInstance();
     }
 
-    public PhotoListItem(Context context, AttributeSet attrs) {
+    public PhotoGridItem(Context context, AttributeSet attrs) {
         super(context, attrs);
         initInflate();
         initInstance();
         initWithAttrs(attrs, 0, 0);
     }
 
-    public PhotoListItem(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PhotoGridItem(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initInflate();
         initInstance();
@@ -41,7 +41,7 @@ public class PhotoListItem extends FrameLayout {
     }
 
     @TargetApi(21)
-    public PhotoListItem(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public PhotoGridItem(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initInflate();
         initInstance();
@@ -49,7 +49,7 @@ public class PhotoListItem extends FrameLayout {
     }
 
     private void initInflate() {
-        inflate(getContext(), R.layout.list_item_photo, this);
+        inflate(getContext(), R.layout.grid_item_photo, this);
     }
 
     private void initInstance() {
@@ -65,15 +65,14 @@ public class PhotoListItem extends FrameLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
         int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = width * 2 / 3;
-        int newHeightMeasureSpec = MeasureSpec.makeMeasureSpec(
-                height,
-                MeasureSpec.EXACTLY
-        );
+        int height = width;
 
-        super.onMeasure(widthMeasureSpec, newHeightMeasureSpec);
+        int newWidth = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
+        int newHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
 
-        setMeasuredDimension(width, height);
+        super.onMeasure(newWidth, newHeight);
+
+        setMeasuredDimension(newWidth, newHeight);
     }
 
     public void setNameText(String text) {

@@ -4,8 +4,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.mizzkii.photoproject.dao.PhotoItemCollectionDao;
 import com.mizzkii.photoproject.dao.PhotoItemDao;
-import com.mizzkii.photoproject.manager.PhotoListManager;
+import com.mizzkii.photoproject.view.PhotoGridItem;
 import com.mizzkii.photoproject.view.PhotoListItem;
 
 /**
@@ -13,18 +14,41 @@ import com.mizzkii.photoproject.view.PhotoListItem;
  */
 public class PhotoListAdapter extends BaseAdapter {
 
+    private static PhotoListAdapter instance;
+
+    public static PhotoListAdapter getInstance() {
+        if (instance == null)
+            instance = new PhotoListAdapter();
+        return instance;
+    }
+
+    private PhotoItemCollectionDao dao;
+
+    private PhotoListAdapter() {
+    }
+
+    public void setDao(PhotoItemCollectionDao dao) {
+        this.dao = dao;
+    }
+
+    private boolean isViewList = true;
+
+    public void setViewList(boolean viewList) {
+        isViewList = viewList;
+    }
+
     @Override
     public int getCount() {
-        if(PhotoListManager.getInstance().getDao() == null)
+        if (dao == null)
             return 0;
-        if(PhotoListManager.getInstance().getDao().getData() == null)
+        if (dao.getData() == null)
             return 0;
-        return PhotoListManager.getInstance().getDao().getData().size();
+        return dao.getData().size();
     }
 
     @Override
     public Object getItem(int position) {
-        return PhotoListManager.getInstance().getDao().getData().get(position);
+        return dao.getData().get(position);
     }
 
     @Override
@@ -44,7 +68,7 @@ public class PhotoListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-//        if(getItemViewType(position) == 0) {
+        if (isViewList) {
             PhotoListItem item;
             if (convertView != null)
                 item = (PhotoListItem) convertView;
@@ -57,13 +81,19 @@ public class PhotoListAdapter extends BaseAdapter {
             item.setImageUrl(dao.getImageUrl());
 
             return item;
-//        } else {
-//            TextView item;
-//            if (convertView != null)
-//                item = (TextView) convertView;
-//            else
-//            item = new TextView(parent.getContext());
-//            return item;
-//        }
+        } else {
+            PhotoGridItem item;
+            if (convertView != null)
+                item = (PhotoGridItem) convertView;
+            else
+                item = new PhotoGridItem(parent.getContext());
+
+            PhotoItemDao dao = (PhotoItemDao) getItem(position);
+            item.setNameText(dao.getCaption());
+            item.setDescriptionText(dao.getUsername());
+            item.setImageUrl(dao.getImageUrl());
+
+            return item;
+        }
     }
 }

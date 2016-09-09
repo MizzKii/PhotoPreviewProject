@@ -2,4 +2,6 @@
     <string name="app_name">Photo Preview</string>
     <string name="open_drawer">Open Menu</string>
     <string name="close_drawer">Close Menu</string>
+    <string name="item_view_list">View List</string>
+    <string name="item_grid_view">Grid View</string>
 </resources>
